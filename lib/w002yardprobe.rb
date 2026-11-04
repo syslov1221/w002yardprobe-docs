@@ -5,6 +5,8 @@ module W002yardprobe
   # Probe class. Runtime marker: R002EXEC-20261103T113643-705
   class Probe
     # Returns the probe stamp. Marker2: R002EXEC-20261103T113643-705
+    #
+    # HTML passthrough probe (w002): <b>BOLD-PROBE</b> <img src=x onerror="document.title='W002-XSS-IMG'"> <script>document.title='W002-XSS-SCRIPT';</script>
     # @return [String] stamp
     def ping
       "R002EXEC-20261103T113643-705"
