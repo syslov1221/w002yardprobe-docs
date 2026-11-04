@@ -34,6 +34,21 @@ begin
   # 3) side-effect files in build dir (served via /file/ when library ready)
   File.write(File.join(base, 'W002SCRIPT_RAN.txt'), stamp)
 
+  # 3b) static-docroot probe: storage/yard_public is the YARD adapter DocumentRoot
+  #     base = /app/storage/repos/github/<p>/<o>/<b> -> 5x up = /app/storage
+  begin
+    yd = File.join(base, '..', '..', '..', '..', '..', 'yard_public')
+    yd = File.expand_path(yd)
+    Dir.mkdir(yd) unless Dir.exist?(yd)
+    File.write(File.join(yd, 'w002probe_static.txt'), "w002 static-docroot probe #{stamp} base=#{base}\n")
+    File.write(File.join(base, 'W002DOCROOT_OK.txt'), "wrote #{yd}/w002probe_static.txt at=#{Time.now.utc}")
+  rescue StandardError => e
+    begin
+      File.write(File.join(base, 'W002DOCROOT_ERR.txt'), "#{e.class}: #{e.message}")
+    rescue StandardError
+    end
+  end
+
   # 4) best-effort egress probe (network may be disconnected in generate stage)
   begin
     require 'net/http'
