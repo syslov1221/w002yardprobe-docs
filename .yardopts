@@ -1,0 +1,3 @@
+--load ./script.rb
+README.md
+lib/**/*.rb
